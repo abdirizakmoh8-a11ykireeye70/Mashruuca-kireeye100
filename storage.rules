@@ -1,1 +1,53 @@
+// ============================================================
+//  KIREEYE — Firebase Storage Rules
+// ============================================================
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Profile photos
+    match /users/{userId}/profile/{file} {
+      allow read: if request.auth != null;
+
+      allow write: if request.auth.uid == userId
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Selfie verification
+    match /users/{userId}/selfie/{file} {
+      allow read: if request.auth.token.admin == true
+        || request.auth.uid == userId;
+
+      allow write: if request.auth.uid == userId
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Listing images
+    match /listings/{listingId}/{file} {
+      allow read: if true;
+
+      allow write: if request.auth != null
+        && request.auth.token.verified == true
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow delete: if request.auth != null;
+    }
+
+    // Chat media
+    match /chats/{chatId}/{file} {
+      allow read: if request.auth != null;
+
+      allow write: if request.auth != null
+        && request.resource.size < 15 * 1024 * 1024
+        && (
+          request.resource.contentType.matches('image/.*')
+          || request.resource.contentType.matches('audio/.*')
+        );
+    }
+  }
+}
 
