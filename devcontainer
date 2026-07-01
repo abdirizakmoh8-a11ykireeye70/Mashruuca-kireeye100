@@ -1,0 +1,25 @@
+{
+  "name": "Mashruuca-kireeye100",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+
+  "postCreateCommand": "npm install --legacy-peer-deps",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+
+  "forwardPorts": [8081, 19000, 19001, 19002],
+
+  "remoteUser": "node"
+}
