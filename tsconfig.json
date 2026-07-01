@@ -1,0 +1,14 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@screens/*":  ["src/screens/*"],
+      "@services/*": ["src/services/*"],
+      "@i18n/*":     ["src/i18n/*"],
+      "@firebase/*": ["firebase/*"]
+    }
+  }
+}
+
